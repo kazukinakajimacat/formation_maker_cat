@@ -318,25 +318,23 @@ export default function FormationMaker() {
     setBench((prev) => prev.slice(0, -1));
   };
 
-  // ---------- ストレージ（単一キー方式） ----------
+  // ---------- ストレージ（localStorage） ----------
   const STORAGE_KEY = 'formations_all_v1';
 
-  const loadAllFormations = async () => {
+  const loadAllFormations = () => {
     try {
-      const r = await window.storage.get(STORAGE_KEY);
-      if (r?.value) {
-        const parsed = JSON.parse(r.value);
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) {
+        const parsed = JSON.parse(raw);
         return parsed && typeof parsed === 'object' ? parsed : {};
       }
-    } catch (err) {
-      // キー未存在は throw されるが、それは想定内
-    }
+    } catch (err) {}
     return {};
   };
 
-  const refreshSavedList = async () => {
+  const refreshSavedList = () => {
     try {
-      const all = await loadAllFormations();
+      const all = loadAllFormations();
       const items = Object.entries(all).map(([id, data]) => ({ id, ...data }));
       items.sort((a, b) => (b.savedAt || 0) - (a.savedAt || 0));
       setSavedList(items);
@@ -346,11 +344,11 @@ export default function FormationMaker() {
     }
   };
 
-  const handleSave = async () => {
+  const handleSave = () => {
     const name = (saveName.trim() || title || 'Untitled').slice(0, 80);
     const id = String(Date.now());
     try {
-      const all = await loadAllFormations();
+      const all = loadAllFormations();
       all[id] = {
         name,
         title,
@@ -364,8 +362,7 @@ export default function FormationMaker() {
         pattern,
         savedAt: Date.now(),
       };
-      const result = await window.storage.set(STORAGE_KEY, JSON.stringify(all));
-      if (!result) throw new Error('storage.set returned null');
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(all));
       showToast(`保存しました（${name}）`);
       setShowSaveDialog(false);
       setSaveName('');
@@ -389,20 +386,20 @@ export default function FormationMaker() {
     showToast(`読み込みました（${item.name}）`);
   };
 
-  const handleDelete = async (id) => {
+  const handleDelete = (id) => {
     try {
-      const all = await loadAllFormations();
+      const all = loadAllFormations();
       delete all[id];
-      await window.storage.set(STORAGE_KEY, JSON.stringify(all));
-      await refreshSavedList();
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(all));
+      refreshSavedList();
       showToast('削除しました');
     } catch (err) {
       showToast(`削除失敗: ${err.message || err}`);
     }
   };
 
-  const openSavedList = async () => {
-    await refreshSavedList();
+  const openSavedList = () => {
+    refreshSavedList();
     setShowSavedList(true);
   };
 
