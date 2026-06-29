@@ -1,29 +1,36 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Formation Maker</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-  <script type="importmap">
-  {
-    "imports": {
-      "react":            "https://esm.sh/react@18",
-      "react-dom/client": "https://esm.sh/react-dom@18/client",
-      "lucide-react":     "https://esm.sh/lucide-react@0.462.0"
-    }
-  }
-  </script>
+  <script src="https://unpkg.com/preact@10/dist/preact.umd.js"></script>
+  <script src="https://unpkg.com/preact@10/hooks/dist/hooks.umd.js"></script>
+  <script src="https://unpkg.com/htm@3/dist/htm.umd.js"></script>
   <style>body{margin:0;background:#0f172a}</style>
 </head>
 <body>
 <div id="root"></div>
-<script type="text/babel" data-type="module">
-import React,{useState,useRef,useCallback} from 'react';
-import {createRoot} from 'react-dom/client';
-import {Save,FolderOpen,Download,Share2,Shirt,Users,Trash2,Plus,X,Edit3} from 'lucide-react';
+<script>
+try {
+const {h,render} = preact;
+const {useState,useRef,useCallback} = preactHooks;
+const html = htm.bind(h);
 
+// ---- アイコン ----
+const Save=({className})=>html`<svg class=${className} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>`;
+const FolderOpen=({className})=>html`<svg class=${className} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>`;
+const Download=({className})=>html`<svg class=${className} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>`;
+const Share2=({className})=>html`<svg class=${className} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>`;
+const Shirt=({className})=>html`<svg class=${className} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.38 3.46L16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.57a1 1 0 0 0 .99.84H6v10c0 1.1.9 2 2 2h8a2 2 0 0 0 2-2V10h2.15a1 1 0 0 0 .99-.84l.58-3.57a2 2 0 0 0-1.34-2.23z"/></svg>`;
+const Users=({className})=>html`<svg class=${className} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>`;
+const Trash2=({className})=>html`<svg class=${className} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>`;
+const Plus=({className})=>html`<svg class=${className} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>`;
+const X=({className})=>html`<svg class=${className} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>`;
+const Edit3=({className})=>html`<svg class=${className} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>`;
+
+// ---- データ ----
 const FORMATIONS={
   '4-4-2':[{role:'GK',x:50,y:92},{role:'DF',x:15,y:75},{role:'DF',x:38,y:78},{role:'DF',x:62,y:78},{role:'DF',x:85,y:75},{role:'MF',x:15,y:50},{role:'MF',x:38,y:53},{role:'MF',x:62,y:53},{role:'MF',x:85,y:50},{role:'FW',x:38,y:22},{role:'FW',x:62,y:22}],
   '4-3-3':[{role:'GK',x:50,y:92},{role:'DF',x:15,y:75},{role:'DF',x:38,y:78},{role:'DF',x:62,y:78},{role:'DF',x:85,y:75},{role:'MF',x:28,y:55},{role:'MF',x:50,y:58},{role:'MF',x:72,y:55},{role:'FW',x:18,y:25},{role:'FW',x:50,y:18},{role:'FW',x:82,y:25}],
@@ -33,60 +40,65 @@ const FORMATIONS={
   '5-3-2':[{role:'GK',x:50,y:92},{role:'DF',x:10,y:72},{role:'DF',x:30,y:78},{role:'DF',x:50,y:80},{role:'DF',x:70,y:78},{role:'DF',x:90,y:72},{role:'MF',x:28,y:50},{role:'MF',x:50,y:52},{role:'MF',x:72,y:50},{role:'FW',x:38,y:22},{role:'FW',x:62,y:22}],
   '4-5-1':[{role:'GK',x:50,y:92},{role:'DF',x:15,y:75},{role:'DF',x:38,y:78},{role:'DF',x:62,y:78},{role:'DF',x:85,y:75},{role:'MF',x:12,y:50},{role:'MF',x:32,y:52},{role:'MF',x:50,y:54},{role:'MF',x:68,y:52},{role:'MF',x:88,y:50},{role:'FW',x:50,y:18}],
 };
-
 const COLORS={
-  navy:{name:'ジャパンブルー',main:'#1a2547',accent:'#e2122a',text:'#ffffff'},
-  blue:{name:'ブルー',main:'#1e40af',accent:'#ffffff',text:'#ffffff'},
-  sky:{name:'スカイ',main:'#38bdf8',accent:'#0c4a6e',text:'#0c4a6e'},
-  red:{name:'レッド',main:'#dc2626',accent:'#ffffff',text:'#ffffff'},
-  white:{name:'ホワイト',main:'#f8fafc',accent:'#dc2626',text:'#1f2937'},
-  yellow:{name:'イエロー',main:'#eab308',accent:'#1f2937',text:'#1f2937'},
-  green:{name:'グリーン',main:'#16a34a',accent:'#ffffff',text:'#ffffff'},
-  orange:{name:'オレンジ',main:'#ea580c',accent:'#ffffff',text:'#ffffff'},
-  black:{name:'ブラック',main:'#1f2937',accent:'#fbbf24',text:'#ffffff'},
-  pink:{name:'ピンク',main:'#ec4899',accent:'#ffffff',text:'#ffffff'},
-  purple:{name:'パープル',main:'#7c3aed',accent:'#ffffff',text:'#ffffff'},
-  maroon:{name:'マルーン',main:'#7f1d1d',accent:'#fbbf24',text:'#ffffff'},
+  navy:{name:'ジャパンブルー',main:'#1a2547',accent:'#e2122a'},
+  blue:{name:'ブルー',main:'#1e40af',accent:'#ffffff'},
+  sky:{name:'スカイ',main:'#38bdf8',accent:'#0c4a6e'},
+  red:{name:'レッド',main:'#dc2626',accent:'#ffffff'},
+  white:{name:'ホワイト',main:'#f8fafc',accent:'#dc2626'},
+  yellow:{name:'イエロー',main:'#eab308',accent:'#1f2937'},
+  green:{name:'グリーン',main:'#16a34a',accent:'#ffffff'},
+  orange:{name:'オレンジ',main:'#ea580c',accent:'#ffffff'},
+  black:{name:'ブラック',main:'#1f2937',accent:'#fbbf24'},
+  pink:{name:'ピンク',main:'#ec4899',accent:'#ffffff'},
+  purple:{name:'パープル',main:'#7c3aed',accent:'#ffffff'},
+  maroon:{name:'マルーン',main:'#7f1d1d',accent:'#fbbf24'},
 };
 const GK_COLORS={
-  yellow:{name:'イエロー',main:'#fbbf24',accent:'#1f2937',text:'#1f2937'},
-  orange:{name:'オレンジ',main:'#f97316',accent:'#1f2937',text:'#ffffff'},
-  green:{name:'グリーン',main:'#22c55e',accent:'#1f2937',text:'#1f2937'},
-  pink:{name:'ピンク',main:'#f472b6',accent:'#1f2937',text:'#1f2937'},
-  grey:{name:'グレー',main:'#6b7280',accent:'#ffffff',text:'#ffffff'},
+  yellow:{name:'イエロー',main:'#fbbf24',accent:'#1f2937'},
+  orange:{name:'オレンジ',main:'#f97316',accent:'#1f2937'},
+  green:{name:'グリーン',main:'#22c55e',accent:'#1f2937'},
+  pink:{name:'ピンク',main:'#f472b6',accent:'#1f2937'},
+  grey:{name:'グレー',main:'#6b7280',accent:'#ffffff'},
 };
 const PATTERNS={solid:'ソリッド',stripes:'ストライプ',hoops:'ボーダー'};
 
-const Shirt3D=({x,y,color,pattern='solid',size=60})=>{
-  const w=size,h=size*0.82;
-  const id=`pat-${Math.round(x)}-${Math.round(y)}-${color.main.replace('#','')}-${pattern}`;
-  const left=x-w/2,top=y-h/2;
-  const fill=pattern==='solid'?color.main:`url(#${id})`;
-  return(<g>
+// ---- シャツSVG ----
+function Shirt3D({x,y,color,pattern='solid',size=60}){
+  const w=size,h_=size*0.82;
+  const id='pat-'+Math.round(x)+'-'+Math.round(y)+'-'+color.main.replace('#','')+'-'+pattern;
+  const left=x-w/2,top=y-h_/2;
+  const fill=pattern==='solid'?color.main:'url(#'+id+')';
+  const dBody='M'+w*.25+' '+h_*.08+' Q'+w*.32+' 0 '+w*.4+' 0 L'+w*.6+' 0 Q'+w*.68+' 0 '+w*.75+' '+h_*.08+' L'+w*.95+' '+h_*.22+' L'+w*.82+' '+h_*.42+' L'+w*.75+' '+h_*.35+' L'+w*.75+' '+h_+' L'+w*.25+' '+h_+' L'+w*.25+' '+h_*.35+' L'+w*.18+' '+h_*.42+' L'+w*.05+' '+h_*.22+' Z';
+  const dCollar='M'+w*.4+' 0 L'+w*.5+' '+h_*.12+' L'+w*.6+' 0';
+  const dLight='M'+w*.3+' '+h_*.15+' L'+w*.32+' '+h_*.85;
+  return html`<g>
     <defs>
-      {pattern==='stripes'&&<pattern id={id} patternUnits="userSpaceOnUse" width="8" height="8"><rect width="8" height="8" fill={color.main}/><rect width="4" height="8" fill={color.accent} opacity="0.85"/></pattern>}
-      {pattern==='hoops'&&<pattern id={id} patternUnits="userSpaceOnUse" width="8" height="8"><rect width="8" height="8" fill={color.main}/><rect width="8" height="4" fill={color.accent} opacity="0.85"/></pattern>}
+      ${pattern==='stripes'&&html`<pattern id=${id} patternUnits="userSpaceOnUse" width="8" height="8"><rect width="8" height="8" fill=${color.main}/><rect width="4" height="8" fill=${color.accent} opacity="0.85"/></pattern>`}
+      ${pattern==='hoops'&&html`<pattern id=${id} patternUnits="userSpaceOnUse" width="8" height="8"><rect width="8" height="8" fill=${color.main}/><rect width="8" height="4" fill=${color.accent} opacity="0.85"/></pattern>`}
     </defs>
-    <g transform={`translate(${left} ${top})`}>
-      <ellipse cx={w/2} cy={h+3} rx={w*0.35} ry={2.5} fill="#000" opacity="0.25"/>
-      <path d={`M${w*.25} ${h*.08} Q${w*.32} 0 ${w*.4} 0 L${w*.6} 0 Q${w*.68} 0 ${w*.75} ${h*.08} L${w*.95} ${h*.22} L${w*.82} ${h*.42} L${w*.75} ${h*.35} L${w*.75} ${h} L${w*.25} ${h} L${w*.25} ${h*.35} L${w*.18} ${h*.42} L${w*.05} ${h*.22} Z`} fill={fill} stroke="#000" strokeOpacity="0.3" strokeWidth="1"/>
-      <path d={`M${w*.4} 0 L${w*.5} ${h*.12} L${w*.6} 0`} fill="none" stroke={color.accent} strokeWidth="2"/>
-      <path d={`M${w*.3} ${h*.15} L${w*.32} ${h*.85}`} stroke="#fff" strokeOpacity="0.15" strokeWidth="2" fill="none"/>
+    <g transform=${'translate('+left+' '+top+')'}>
+      <ellipse cx=${w/2} cy=${h_+3} rx=${w*0.35} ry="2.5" fill="#000" opacity="0.25"/>
+      <path d=${dBody} fill=${fill} stroke="#000" stroke-opacity="0.3" stroke-width="1"/>
+      <path d=${dCollar} fill="none" stroke=${color.accent} stroke-width="2"/>
+      <path d=${dLight} stroke="#fff" stroke-opacity="0.15" stroke-width="2" fill="none"/>
     </g>
-  </g>);
-};
+  </g>`;
+}
 
-const STORAGE_KEY='formations_all_v1';
-const loadAll=()=>{try{const r=localStorage.getItem(STORAGE_KEY);return r?JSON.parse(r):{}}catch{return {}}};
-const saveAll=(a)=>localStorage.setItem(STORAGE_KEY,JSON.stringify(a));
+// ---- ストレージ ----
+const SK='formations_all_v1';
+const loadAll=()=>{try{const r=localStorage.getItem(SK);return r?JSON.parse(r):{}}catch(e){return{}}};
+const saveAll=(a)=>localStorage.setItem(SK,JSON.stringify(a));
 
+// ---- メイン ----
 function FormationMaker(){
   const [title,setTitle]=useState('My Lineup');
   const [subtitle,setSubtitle]=useState('');
   const [formation,setFormation]=useState('4-3-3');
   const [isCustomized,setIsCustomized]=useState(false);
   const [players,setPlayers]=useState(()=>FORMATIONS['4-3-3'].map((p,i)=>({...p,id:i,name:''})));
-  const [bench,setBench]=useState(()=>Array.from({length:7},(_,i)=>({id:`b${i}`,name:''})));
+  const [bench,setBench]=useState(()=>Array.from({length:7},(_,i)=>({id:'b'+i,name:''})));
   const [shirtColor,setShirtColor]=useState('navy');
   const [gkColor,setGkColor]=useState('yellow');
   const [pattern,setPattern]=useState('solid');
@@ -103,91 +115,100 @@ function FormationMaker(){
   const dragRef=useRef(null);
   const movedRef=useRef(false);
 
-  const changeFormation=(k)=>{
-    setFormation(k);setIsCustomized(false);
-    setPlayers(prev=>FORMATIONS[k].map((p,i)=>({...p,id:i,name:prev[i]?.name||''})));
-  };
-  const toast_=(m)=>{setToast(m);setTimeout(()=>setToast(''),2200)};
+  const changeFormation=(k)=>{setFormation(k);setIsCustomized(false);setPlayers(prev=>FORMATIONS[k].map((p,i)=>({...p,id:i,name:prev[i]?prev[i].name:''})));};
+  const showToast=(m)=>{setToast(m);setTimeout(()=>setToast(''),2200);};
 
-  const onPointerDown=(e,id)=>{e.preventDefault();dragRef.current=id;movedRef.current=false;e.target.setPointerCapture?.(e.pointerId)};
-  const onPointerMove=(e)=>{
-    if(dragRef.current===null)return;
+  const onPD=(e,id)=>{e.preventDefault();dragRef.current=id;movedRef.current=false;if(e.target.setPointerCapture)e.target.setPointerCapture(e.pointerId);};
+  const onPM=(e)=>{
+    if(dragRef.current==null)return;
     const svg=svgRef.current;if(!svg)return;
     const r=svg.getBoundingClientRect();
-    const x=((e.clientX-r.left)/r.width)*100;
-    const y=((e.clientY-r.top)/r.height)*100;
+    const x=((e.clientX-r.left)/r.width)*100,y=((e.clientY-r.top)/r.height)*100;
     if(Math.abs(x)>0){movedRef.current=true;setIsCustomized(true);}
     setPlayers(prev=>prev.map(p=>p.id===dragRef.current?{...p,x:Math.max(5,Math.min(95,x)),y:Math.max(5,Math.min(95,y))}:p));
   };
-  const onPointerUp=(e,id)=>{
+  const onPU=(e,id)=>{
     const was=movedRef.current;dragRef.current=null;
-    if(!was&&id!==undefined){const p=players.find(pl=>pl.id===id);setEditingType('main');setEditingId(id);setEditingName(p?.name||'');}
+    if(!was&&id!=null){const p=players.find(pl=>pl.id===id);setEditingType('main');setEditingId(id);setEditingName(p?p.name:'');}
   };
-  const openBench=(id)=>{const b=bench.find(x=>x.id===id);setEditingType('bench');setEditingId(id);setEditingName(b?.name||'')};
+  const openBench=(id)=>{const b=bench.find(x=>x.id===id);setEditingType('bench');setEditingId(id);setEditingName(b?b.name:'');};
   const commitName=()=>{
-    if(editingType==='main') setPlayers(prev=>prev.map(p=>p.id===editingId?{...p,name:editingName}:p));
+    if(editingType==='main')setPlayers(prev=>prev.map(p=>p.id===editingId?{...p,name:editingName}:p));
     else setBench(prev=>prev.map(b=>b.id===editingId?{...b,name:editingName}:b));
     setEditingId(null);setEditingName('');
   };
   const swap=(tt,tid)=>{
     const sn=editingName,si=editingId,st=editingType;
-    const tn=tt==='main'?players.find(p=>p.id===tid)?.name||'':bench.find(b=>b.id===tid)?.name||'';
-    if(st==='main'&&tt==='main') setPlayers(prev=>prev.map(p=>p.id===si?{...p,name:tn}:p.id===tid?{...p,name:sn}:p));
-    else if(st==='bench'&&tt==='bench') setBench(prev=>prev.map(b=>b.id===si?{...b,name:tn}:b.id===tid?{...b,name:sn}:b));
-    else if(st==='main'){
-      setPlayers(prev=>prev.map(p=>p.id===si?{...p,name:tn}:p));
-      setBench(prev=>prev.map(b=>b.id===tid?{...b,name:sn}:b));
-    }else{
-      setBench(prev=>prev.map(b=>b.id===si?{...b,name:tn}:b));
-      setPlayers(prev=>prev.map(p=>p.id===tid?{...p,name:sn}:p));
-    }
-    setShowSwap(false);setEditingId(null);setEditingName('');toast_('入れ替えました');
+    const tn=tt==='main'?(players.find(p=>p.id===tid)||{name:''}).name:(bench.find(b=>b.id===tid)||{name:''}).name;
+    if(st==='main'&&tt==='main')setPlayers(prev=>prev.map(p=>p.id===si?{...p,name:tn}:p.id===tid?{...p,name:sn}:p));
+    else if(st==='bench'&&tt==='bench')setBench(prev=>prev.map(b=>b.id===si?{...b,name:tn}:b.id===tid?{...b,name:sn}:b));
+    else if(st==='main'){setPlayers(prev=>prev.map(p=>p.id===si?{...p,name:tn}:p));setBench(prev=>prev.map(b=>b.id===tid?{...b,name:sn}:b));}
+    else{setBench(prev=>prev.map(b=>b.id===si?{...b,name:tn}:b));setPlayers(prev=>prev.map(p=>p.id===tid?{...p,name:sn}:p));}
+    setShowSwap(false);setEditingId(null);setEditingName('');showToast('入れ替えました');
   };
 
-  const refreshList=()=>{const a=loadAll();const items=Object.entries(a).map(([id,d])=>({id,...d})).sort((a,b)=>(b.savedAt||0)-(a.savedAt||0));setSavedList(items)};
+  const refreshList=()=>{const a=loadAll();setSavedList(Object.entries(a).map(([id,d])=>({id,...d})).sort((a,b)=>(b.savedAt||0)-(a.savedAt||0)));};
   const doSave=()=>{
-    const name=(saveName.trim()||title||'Untitled').slice(0,80);
-    const id=String(Date.now());
-    try{const a=loadAll();a[id]={name,title,subtitle,formation,isCustomized,players,bench,shirtColor,gkColor,pattern,savedAt:Date.now()};saveAll(a);toast_(`保存しました（${name}）`);setShowSave(false);setSaveName('');}
-    catch(e){toast_(`保存失敗: ${e.message}`);}
+    const name=(saveName.trim()||title||'Untitled').slice(0,80),id=String(Date.now());
+    try{const a=loadAll();a[id]={name,title,subtitle,formation,isCustomized,players,bench,shirtColor,gkColor,pattern,savedAt:Date.now()};saveAll(a);showToast('保存しました（'+name+'）');setShowSave(false);setSaveName('');}
+    catch(e){showToast('保存失敗: '+e.message);}
   };
   const doLoad=(item)=>{
-    setTitle(item.title||item.name);setSubtitle(item.subtitle||'');setFormation(item.formation);
-    setIsCustomized(item.isCustomized||false);setPlayers(item.players);
-    setBench(item.bench||Array.from({length:7},(_,i)=>({id:`b${i}`,name:''})));
+    setTitle(item.title||item.name);setSubtitle(item.subtitle||'');setFormation(item.formation);setIsCustomized(item.isCustomized||false);
+    setPlayers(item.players);setBench(item.bench||Array.from({length:7},(_,i)=>({id:'b'+i,name:''})));
     setShirtColor(item.shirtColor);setGkColor(item.gkColor);setPattern(item.pattern||'solid');
-    setShowList(false);toast_(`読み込みました（${item.name}）`);
+    setShowList(false);showToast('読み込みました（'+item.name+'）');
   };
-  const doDelete=(id)=>{try{const a=loadAll();delete a[id];saveAll(a);refreshList();toast_('削除しました');}catch(e){toast_(`削除失敗: ${e.message}`);}};
+  const doDelete=(id)=>{try{const a=loadAll();delete a[id];saveAll(a);refreshList();showToast('削除しました');}catch(e){showToast('削除失敗: '+e.message);}};
 
-  const exportImg=useCallback(async(mode='download')=>{
+  const exportImg=useCallback(async(mode)=>{
     try{
-      const svg=svgRef.current;if(!svg){toast_('SVGが見つかりません');return;}
-      const s=new XMLSerializer();const c=svg.cloneNode(true);c.setAttribute('xmlns','http://www.w3.org/2000/svg');
-      const str=s.serializeToString(c);
-      const enc=encodeURIComponent(str).replace(/'/g,'%27').replace(/"/g,'%22');
-      const url=`data:image/svg+xml;charset=utf-8,${enc}`;
+      const svg=svgRef.current;if(!svg){showToast('SVGが見つかりません');return;}
+      const s=new XMLSerializer(),c=svg.cloneNode(true);c.setAttribute('xmlns','http://www.w3.org/2000/svg');
+      const enc=encodeURIComponent(s.serializeToString(c)).replace(/'/g,'%27').replace(/"/g,'%22');
       const img=new Image();
-      await new Promise((res,rej)=>{img.onload=res;img.onerror=()=>rej(new Error('読み込み失敗'));img.src=url;});
-      const sc=2,W=800,H=1240,cv=document.createElement('canvas');
-      cv.width=W*sc;cv.height=H*sc;const ctx=cv.getContext('2d');ctx.scale(sc,sc);ctx.drawImage(img,0,0,W,H);
-      const blob=await new Promise((res,rej)=>cv.toBlob(b=>b?res(b):rej(new Error('PNG変換失敗')),'image/png'));
-      const fn=`${(title||'lineup').replace(/[^\w぀-ヿ一-鿿-]/g,'_')}.png`;
-      if(mode==='share'){const f=new File([blob],fn,{type:'image/png'});if(navigator.canShare&&navigator.canShare({files:[f]})){await navigator.share({files:[f],title:title||'Lineup'});toast_('共有しました');return;}}
-      const bu=URL.createObjectURL(blob);const a=document.createElement('a');a.href=bu;a.download=fn;document.body.appendChild(a);a.click();document.body.removeChild(a);setTimeout(()=>URL.revokeObjectURL(bu),1000);
-      toast_(mode==='share'?'共有未対応のため保存しました':'画像を保存しました');
-    }catch(e){console.error(e);toast_(`画像出力失敗: ${e.message}`);}
+      await new Promise((res,rej)=>{img.onload=res;img.onerror=()=>rej(new Error('img load fail'));img.src='data:image/svg+xml;charset=utf-8,'+enc;});
+      const cv=document.createElement('canvas');cv.width=1600;cv.height=2480;
+      const ctx=cv.getContext('2d');ctx.scale(2,2);ctx.drawImage(img,0,0,800,1240);
+      const blob=await new Promise((res,rej)=>cv.toBlob(b=>b?res(b):rej(new Error('blob fail')),'image/png'));
+      const fn=(title||'lineup').replace(/[^\w぀-ヿ一-鿿]/g,'_')+'.png';
+      if(mode==='share'&&navigator.canShare){const f=new File([blob],fn,{type:'image/png'});if(navigator.canShare({files:[f]})){await navigator.share({files:[f],title:title||'Lineup'});showToast('共有しました');return;}}
+      const bu=URL.createObjectURL(blob),a=document.createElement('a');a.href=bu;a.download=fn;document.body.appendChild(a);a.click();document.body.removeChild(a);setTimeout(()=>URL.revokeObjectURL(bu),1000);
+      showToast(mode==='share'?'共有未対応のため保存しました':'画像を保存しました');
+    }catch(e){showToast('画像出力失敗: '+e.message);}
   },[title]);
 
   const color=COLORS[shirtColor],gk=GK_COLORS[gkColor];
 
-  return(<div className="min-h-screen bg-gradient-to-b from-slate-900 to-slate-800 text-white p-3">
-    <div className="max-w-md mx-auto">
-      <input value={title} onChange={e=>setTitle(e.target.value)} className="w-full bg-transparent text-2xl font-bold text-center mb-1 outline-none border-b border-white/20 focus:border-white/60 pb-1" placeholder="タイトルを入力"/>
-      <input value={subtitle} onChange={e=>setSubtitle(e.target.value)} className="w-full bg-transparent text-sm text-center text-white/70 mb-3 outline-none focus:text-white" placeholder="副題（任意・例: vs UAE）"/>
+  const playerNodes=players.map(p=>{
+    const cx=(p.x/100)*800,cy=(p.y/100)*1000,c=p.role==='GK'?gk:color;
+    return html`<g key=${p.id} style="cursor:grab" onPointerDown=${e=>onPD(e,p.id)} onPointerUp=${e=>onPU(e,p.id)}>
+      <${Shirt3D} x=${cx} y=${cy} color=${c} pattern=${p.role==='GK'?'solid':pattern} size=${90}/>
+      <rect x=${cx-60} y=${cy+42} width="120" height="26" rx="4" fill="#000" fill-opacity="0.35"/>
+      <text x=${cx} y=${cy+60} text-anchor="middle" font-size="18" font-weight="bold" fill="#fff" font-family="system-ui,sans-serif">${p.name||p.role}</text>
+    </g>`;
+  });
 
-      <div className="relative bg-black/30 rounded-2xl overflow-hidden shadow-2xl mb-4">
-        <svg ref={svgRef} viewBox="0 0 800 1240" className="w-full h-auto touch-none select-none" onPointerMove={onPointerMove} onPointerUp={()=>onPointerUp({},undefined)}>
+  const benchNodes=(()=>{
+    const N=bench.length,perRow=Math.min(N,7),rows=Math.ceil(N/perRow),baseY=rows===1?1130:1080;
+    return bench.map((b,i)=>{
+      const row=Math.floor(i/perRow),col=i%perRow,inRow=row===rows-1?N-row*perRow:perRow;
+      const cx=800/(inRow+1)*(col+1),cy=baseY+row*(rows===1?0:100);
+      return html`<g key=${b.id} style="cursor:pointer" onPointerDown=${e=>{e.preventDefault();openBench(b.id);}}>
+        <${Shirt3D} x=${cx} y=${cy} color=${color} pattern=${pattern} size=${60}/>
+        <rect x=${cx-50} y=${cy+30} width="100" height="22" rx="3" fill="#000" fill-opacity="0.4"/>
+        <text x=${cx} y=${cy+45} text-anchor="middle" font-size="14" font-weight="bold" fill="#fff" font-family="system-ui,sans-serif">${b.name||('控え'+(i+1))}</text>
+      </g>`;
+    });
+  })();
+
+  return html`<div class="min-h-screen bg-gradient-to-b from-slate-900 to-slate-800 text-white p-3">
+    <div class="max-w-md mx-auto">
+      <input value=${title} onInput=${e=>setTitle(e.target.value)} class="w-full bg-transparent text-2xl font-bold text-center mb-1 outline-none border-b border-white/20 focus:border-white/60 pb-1" placeholder="タイトルを入力"/>
+      <input value=${subtitle} onInput=${e=>setSubtitle(e.target.value)} class="w-full bg-transparent text-sm text-center text-white/70 mb-3 outline-none focus:text-white" placeholder="副題（任意・例: vs UAE）"/>
+
+      <div class="relative bg-black/30 rounded-2xl overflow-hidden shadow-2xl mb-4">
+        <svg ref=${svgRef} viewBox="0 0 800 1240" class="w-full h-auto touch-none select-none" onPointerMove=${onPM} onPointerUp=${()=>onPU({})}>
           <defs>
             <pattern id="grass" patternUnits="userSpaceOnUse" width="800" height="100">
               <rect width="800" height="50" fill="#2a8f47"/>
@@ -195,7 +216,7 @@ function FormationMaker(){
             </pattern>
           </defs>
           <rect width="800" height="1000" fill="url(#grass)"/>
-          <g stroke="#fff" strokeOpacity="0.55" strokeWidth="2" fill="none">
+          <g stroke="#fff" stroke-opacity="0.55" stroke-width="2" fill="none">
             <rect x="40" y="40" width="720" height="920"/>
             <line x1="40" y1="500" x2="760" y2="500"/>
             <circle cx="400" cy="500" r="80"/>
@@ -211,184 +232,142 @@ function FormationMaker(){
             <rect x="350" y="20" width="100" height="20"/>
             <rect x="350" y="960" width="100" height="20"/>
           </g>
-          {players.map(p=>{
-            const cx=(p.x/100)*800,cy=(p.y/100)*1000,c=p.role==='GK'?gk:color;
-            return(<g key={p.id} style={{cursor:'grab'}} onPointerDown={e=>onPointerDown(e,p.id)} onPointerUp={e=>onPointerUp(e,p.id)}>
-              <Shirt3D x={cx} y={cy} color={c} pattern={p.role==='GK'?'solid':pattern} size={90}/>
-              <rect x={cx-60} y={cy+42} width="120" height="26" rx="4" fill="#000" fillOpacity="0.35"/>
-              <text x={cx} y={cy+60} textAnchor="middle" fontSize="18" fontWeight="bold" fill="#fff" style={{fontFamily:'system-ui,sans-serif'}}>{p.name||p.role}</text>
-            </g>);
-          })}
-          {(subtitle||!isCustomized)&&<text x="400" y="990" textAnchor="middle" fontSize="20" fill="#fff" fillOpacity="0.55" style={{fontFamily:'system-ui,sans-serif'}}>{subtitle||formation}</text>}
+          ${playerNodes}
+          ${(subtitle||!isCustomized)&&html`<text x="400" y="990" text-anchor="middle" font-size="20" fill="#fff" fill-opacity="0.55" font-family="system-ui,sans-serif">${subtitle||formation}</text>`}
           <rect x="0" y="1000" width="800" height="240" fill="#0f172a"/>
-          <text x="400" y="1030" textAnchor="middle" fontSize="18" fontWeight="bold" fill="#fff" fillOpacity="0.8" letterSpacing="2" style={{fontFamily:'system-ui,sans-serif'}}>SUBSTITUTES / 控え</text>
-          {(()=>{
-            const N=bench.length,perRow=Math.min(N,7),rows=Math.ceil(N/perRow),baseY=rows===1?1130:1080;
-            return bench.map((b,i)=>{
-              const row=Math.floor(i/perRow),col=i%perRow,inRow=row===rows-1?N-row*perRow:perRow;
-              const cx=800/(inRow+1)*(col+1),cy=baseY+row*(rows===1?0:100);
-              return(<g key={b.id} style={{cursor:'pointer'}} onPointerDown={e=>{e.preventDefault();openBench(b.id);}}>
-                <Shirt3D x={cx} y={cy} color={color} pattern={pattern} size={60}/>
-                <rect x={cx-50} y={cy+30} width="100" height="22" rx="3" fill="#000" fillOpacity="0.4"/>
-                <text x={cx} y={cy+45} textAnchor="middle" fontSize="14" fontWeight="bold" fill="#fff" style={{fontFamily:'system-ui,sans-serif'}}>{b.name||`控え${i+1}`}</text>
-              </g>);
-            });
-          })()}
+          <text x="400" y="1030" text-anchor="middle" font-size="18" font-weight="bold" fill="#fff" fill-opacity="0.8" letter-spacing="2" font-family="system-ui,sans-serif">SUBSTITUTES / 控え</text>
+          ${benchNodes}
         </svg>
-        <div className="absolute top-2 right-2 text-[10px] text-white/60 bg-black/40 px-2 py-1 rounded">タップで名前 / ドラッグで移動</div>
+        <div class="absolute top-2 right-2 text-[10px] text-white/60 bg-black/40 px-2 py-1 rounded">タップで名前 / ドラッグで移動</div>
       </div>
 
-      <div className="space-y-3">
-        <div className="bg-white/5 backdrop-blur rounded-xl p-3">
-          <div className="flex items-center justify-between mb-2">
-            <div className="flex items-center gap-2 text-sm font-semibold">
-              <Users className="w-4 h-4"/> フォーメーション
-              {isCustomized&&<span className="text-xs font-normal text-amber-300 bg-amber-500/20 px-2 py-0.5 rounded-full">Custom</span>}
+      <div class="space-y-3">
+        <div class="bg-white/5 backdrop-blur rounded-xl p-3">
+          <div class="flex items-center justify-between mb-2">
+            <div class="flex items-center gap-2 text-sm font-semibold">
+              <${Users} className="w-4 h-4"/> フォーメーション
+              ${isCustomized&&html`<span class="text-xs font-normal text-amber-300 bg-amber-500/20 px-2 py-0.5 rounded-full">Custom</span>`}
             </div>
-            {isCustomized&&<button onClick={()=>changeFormation(formation)} className="text-xs px-2 py-1 bg-white/10 hover:bg-white/20 rounded-md">配置を戻す</button>}
+            ${isCustomized&&html`<button onClick=${()=>changeFormation(formation)} class="text-xs px-2 py-1 bg-white/10 hover:bg-white/20 rounded-md">配置を戻す</button>`}
           </div>
-          <div className="grid grid-cols-4 gap-2">
-            {Object.keys(FORMATIONS).map(k=>(
-              <button key={k} onClick={()=>changeFormation(k)} className={`px-2 py-2 rounded-lg text-sm font-bold transition ${formation===k&&!isCustomized?'bg-white text-slate-900':'bg-white/10 hover:bg-white/20 text-white'}`}>{k}</button>
-            ))}
+          <div class="grid grid-cols-4 gap-2">
+            ${Object.keys(FORMATIONS).map(k=>html`<button key=${k} onClick=${()=>changeFormation(k)} class=${'px-2 py-2 rounded-lg text-sm font-bold transition '+(formation===k&&!isCustomized?'bg-white text-slate-900':'bg-white/10 hover:bg-white/20 text-white')}>${k}</button>`)}
           </div>
         </div>
 
-        <div className="bg-white/5 backdrop-blur rounded-xl p-3">
-          <div className="flex items-center justify-between mb-2">
-            <div className="flex items-center gap-2 text-sm font-semibold"><Users className="w-4 h-4"/> ベンチ <span className="text-xs font-normal text-white/60">{bench.length}人</span></div>
-            <div className="flex gap-1">
-              <button onClick={()=>bench.length>1&&setBench(p=>p.slice(0,-1))} disabled={bench.length<=1} className="px-2 py-1 rounded-md bg-white/10 hover:bg-white/20 disabled:opacity-30 text-xs">− 削除</button>
-              <button onClick={()=>bench.length<12&&setBench(p=>[...p,{id:`b${Date.now()}`,name:''}])} disabled={bench.length>=12} className="px-2 py-1 rounded-md bg-white/10 hover:bg-white/20 disabled:opacity-30 text-xs flex items-center gap-1"><Plus className="w-3 h-3"/> 追加</button>
+        <div class="bg-white/5 backdrop-blur rounded-xl p-3">
+          <div class="flex items-center justify-between mb-2">
+            <div class="flex items-center gap-2 text-sm font-semibold"><${Users} className="w-4 h-4"/> ベンチ <span class="text-xs font-normal text-white/60">${bench.length}人</span></div>
+            <div class="flex gap-1">
+              <button onClick=${()=>bench.length>1&&setBench(p=>p.slice(0,-1))} disabled=${bench.length<=1} class="px-2 py-1 rounded-md bg-white/10 hover:bg-white/20 disabled:opacity-30 text-xs">− 削除</button>
+              <button onClick=${()=>bench.length<12&&setBench(p=>[...p,{id:'b'+Date.now(),name:''}])} disabled=${bench.length>=12} class="px-2 py-1 rounded-md bg-white/10 hover:bg-white/20 disabled:opacity-30 text-xs flex items-center gap-1"><${Plus} className="w-3 h-3"/> 追加</button>
             </div>
           </div>
-          <div className="text-xs text-white/60">ピッチ下のシャツをタップで名前入力できます</div>
+          <div class="text-xs text-white/60">ピッチ下のシャツをタップで名前入力できます</div>
         </div>
 
-        <div className="bg-white/5 backdrop-blur rounded-xl p-3">
-          <div className="flex items-center gap-2 mb-2 text-sm font-semibold"><Shirt className="w-4 h-4"/> フィールド選手</div>
-          <div className="grid grid-cols-6 gap-2 mb-3">
-            {Object.entries(COLORS).map(([k,c])=>(
-              <button key={k} onClick={()=>setShirtColor(k)} className={`aspect-square rounded-lg border-2 transition ${shirtColor===k?'border-white scale-110':'border-white/20'}`} style={{background:c.main}} title={c.name}/>
-            ))}
+        <div class="bg-white/5 backdrop-blur rounded-xl p-3">
+          <div class="flex items-center gap-2 mb-2 text-sm font-semibold"><${Shirt} className="w-4 h-4"/> フィールド選手</div>
+          <div class="grid grid-cols-6 gap-2 mb-3">
+            ${Object.entries(COLORS).map(([k,c])=>html`<button key=${k} onClick=${()=>setShirtColor(k)} class=${'aspect-square rounded-lg border-2 transition '+(shirtColor===k?'border-white scale-110':'border-white/20')} style=${{background:c.main}} title=${c.name}/>`)}
           </div>
-          <div className="flex gap-2">
-            {Object.entries(PATTERNS).map(([k,l])=>(
-              <button key={k} onClick={()=>setPattern(k)} className={`flex-1 py-1.5 rounded-md text-xs font-medium transition ${pattern===k?'bg-white text-slate-900':'bg-white/10 hover:bg-white/20'}`}>{l}</button>
-            ))}
+          <div class="flex gap-2">
+            ${Object.entries(PATTERNS).map(([k,l])=>html`<button key=${k} onClick=${()=>setPattern(k)} class=${'flex-1 py-1.5 rounded-md text-xs font-medium transition '+(pattern===k?'bg-white text-slate-900':'bg-white/10 hover:bg-white/20')}>${l}</button>`)}
           </div>
         </div>
 
-        <div className="bg-white/5 backdrop-blur rounded-xl p-3">
-          <div className="flex items-center gap-2 mb-2 text-sm font-semibold"><Shirt className="w-4 h-4"/> GK</div>
-          <div className="grid grid-cols-5 gap-2">
-            {Object.entries(GK_COLORS).map(([k,c])=>(
-              <button key={k} onClick={()=>setGkColor(k)} className={`aspect-square rounded-lg border-2 transition ${gkColor===k?'border-white scale-110':'border-white/20'}`} style={{background:c.main}} title={c.name}/>
-            ))}
+        <div class="bg-white/5 backdrop-blur rounded-xl p-3">
+          <div class="flex items-center gap-2 mb-2 text-sm font-semibold"><${Shirt} className="w-4 h-4"/> GK</div>
+          <div class="grid grid-cols-5 gap-2">
+            ${Object.entries(GK_COLORS).map(([k,c])=>html`<button key=${k} onClick=${()=>setGkColor(k)} class=${'aspect-square rounded-lg border-2 transition '+(gkColor===k?'border-white scale-110':'border-white/20')} style=${{background:c.main}} title=${c.name}/>`)}
           </div>
         </div>
 
-        <div className="grid grid-cols-2 gap-2">
-          <button onClick={()=>setShowSave(true)} className="flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-500 py-3 rounded-xl font-semibold transition"><Save className="w-4 h-4"/> 保存</button>
-          <button onClick={()=>{refreshList();setShowList(true);}} className="flex items-center justify-center gap-2 bg-slate-700 hover:bg-slate-600 py-3 rounded-xl font-semibold transition"><FolderOpen className="w-4 h-4"/> 読み込み</button>
-          <button onClick={()=>exportImg('download')} className="flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-500 py-3 rounded-xl font-semibold transition"><Download className="w-4 h-4"/> 画像保存</button>
-          <button onClick={()=>exportImg('share')} className="flex items-center justify-center gap-2 bg-purple-600 hover:bg-purple-500 py-3 rounded-xl font-semibold transition"><Share2 className="w-4 h-4"/> 共有</button>
+        <div class="grid grid-cols-2 gap-2">
+          <button onClick=${()=>setShowSave(true)} class="flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-500 py-3 rounded-xl font-semibold transition"><${Save} className="w-4 h-4"/> 保存</button>
+          <button onClick=${()=>{refreshList();setShowList(true);}} class="flex items-center justify-center gap-2 bg-slate-700 hover:bg-slate-600 py-3 rounded-xl font-semibold transition"><${FolderOpen} className="w-4 h-4"/> 読み込み</button>
+          <button onClick=${()=>exportImg('download')} class="flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-500 py-3 rounded-xl font-semibold transition"><${Download} className="w-4 h-4"/> 画像保存</button>
+          <button onClick=${()=>exportImg('share')} class="flex items-center justify-center gap-2 bg-purple-600 hover:bg-purple-500 py-3 rounded-xl font-semibold transition"><${Share2} className="w-4 h-4"/> 共有</button>
         </div>
       </div>
 
-      {editingId!==null&&!showSwap&&(
-        <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4" onClick={()=>setEditingId(null)}>
-          <div className="bg-slate-800 rounded-2xl p-5 w-full max-w-xs" onClick={e=>e.stopPropagation()}>
-            <div className="flex items-center gap-2 mb-3"><Edit3 className="w-4 h-4"/><span className="font-semibold">{editingType==='main'?'先発選手':'ベンチ選手'}</span></div>
-            <input autoFocus value={editingName} onChange={e=>setEditingName(e.target.value)} onKeyDown={e=>e.key==='Enter'&&commitName()} placeholder="例: 久保建英" className="w-full bg-slate-900 border border-white/20 rounded-lg px-3 py-2 text-white outline-none focus:border-white/60 mb-3"/>
-            <button onClick={()=>setShowSwap(true)} className="w-full py-2 mb-2 bg-amber-600 hover:bg-amber-500 rounded-lg font-medium text-sm flex items-center justify-center gap-2"><Users className="w-4 h-4"/> 他の選手と入れ替え</button>
-            <div className="flex gap-2">
-              <button onClick={()=>setEditingId(null)} className="flex-1 py-2 bg-slate-700 hover:bg-slate-600 rounded-lg font-medium">キャンセル</button>
-              <button onClick={commitName} className="flex-1 py-2 bg-blue-600 hover:bg-blue-500 rounded-lg font-medium">決定</button>
+      ${editingId!=null&&!showSwap&&html`
+        <div class="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4" onClick=${()=>setEditingId(null)}>
+          <div class="bg-slate-800 rounded-2xl p-5 w-full max-w-xs" onClick=${e=>e.stopPropagation()}>
+            <div class="flex items-center gap-2 mb-3"><${Edit3} className="w-4 h-4"/><span class="font-semibold">${editingType==='main'?'先発選手':'ベンチ選手'}</span></div>
+            <input autoFocus value=${editingName} onInput=${e=>setEditingName(e.target.value)} onKeyDown=${e=>e.key==='Enter'&&commitName()} placeholder="例: 久保建英" class="w-full bg-slate-900 border border-white/20 rounded-lg px-3 py-2 text-white outline-none focus:border-white/60 mb-3"/>
+            <button onClick=${()=>setShowSwap(true)} class="w-full py-2 mb-2 bg-amber-600 hover:bg-amber-500 rounded-lg font-medium text-sm flex items-center justify-center gap-2"><${Users} className="w-4 h-4"/> 他の選手と入れ替え</button>
+            <div class="flex gap-2">
+              <button onClick=${()=>setEditingId(null)} class="flex-1 py-2 bg-slate-700 hover:bg-slate-600 rounded-lg font-medium">キャンセル</button>
+              <button onClick=${commitName} class="flex-1 py-2 bg-blue-600 hover:bg-blue-500 rounded-lg font-medium">決定</button>
             </div>
           </div>
-        </div>
-      )}
+        </div>`}
 
-      {showSwap&&(
-        <div className="fixed inset-0 bg-black/80 flex items-end sm:items-center justify-center z-[60]" onClick={()=>setShowSwap(false)}>
-          <div className="bg-slate-800 rounded-t-2xl sm:rounded-2xl p-5 w-full max-w-md max-h-[85vh] overflow-y-auto" onClick={e=>e.stopPropagation()}>
-            <div className="flex items-center justify-between mb-3">
-              <div className="flex items-center gap-2"><Users className="w-4 h-4"/><span className="font-semibold">入れ替え相手を選択</span></div>
-              <button onClick={()=>setShowSwap(false)}><X className="w-5 h-5"/></button>
+      ${showSwap&&html`
+        <div class="fixed inset-0 bg-black/80 flex items-end sm:items-center justify-center z-50" onClick=${()=>setShowSwap(false)}>
+          <div class="bg-slate-800 rounded-t-2xl sm:rounded-2xl p-5 w-full max-w-md max-h-[85vh] overflow-y-auto" onClick=${e=>e.stopPropagation()}>
+            <div class="flex items-center justify-between mb-3">
+              <div class="flex items-center gap-2"><${Users} className="w-4 h-4"/><span class="font-semibold">入れ替え相手を選択</span></div>
+              <button onClick=${()=>setShowSwap(false)}><${X} className="w-5 h-5"/></button>
             </div>
-            <div className="text-xs text-white/60 mb-3">{editingType==='main'?'先発':'ベンチ'} の「{editingName||'(空欄)'}」と入れ替える相手を選んでください</div>
-            <div className="mb-4">
-              <div className="text-xs font-bold text-white/70 mb-2 uppercase tracking-wider">先発</div>
-              <div className="grid grid-cols-2 gap-2">
-                {players.filter(p=>!(editingType==='main'&&p.id===editingId)).map(p=>(
-                  <button key={p.id} onClick={()=>swap('main',p.id)} className="bg-slate-900 hover:bg-slate-700 rounded-lg p-2 text-left transition">
-                    <div className="text-[10px] text-white/50 font-bold">{p.role}</div>
-                    <div className="text-sm font-medium truncate">{p.name||<span className="text-white/40">未入力</span>}</div>
-                  </button>
-                ))}
+            <div class="text-xs text-white/60 mb-3">${editingType==='main'?'先発':'ベンチ'} の「${editingName||'(空欄)'}」と入れ替える相手を選んでください</div>
+            <div class="mb-4">
+              <div class="text-xs font-bold text-white/70 mb-2 uppercase tracking-wider">先発</div>
+              <div class="grid grid-cols-2 gap-2">
+                ${players.filter(p=>!(editingType==='main'&&p.id===editingId)).map(p=>html`<button key=${p.id} onClick=${()=>swap('main',p.id)} class="bg-slate-900 hover:bg-slate-700 rounded-lg p-2 text-left transition"><div class="text-[10px] text-white/50 font-bold">${p.role}</div><div class="text-sm font-medium truncate">${p.name||html`<span class="text-white/40">未入力</span>`}</div></button>`)}
               </div>
             </div>
             <div>
-              <div className="text-xs font-bold text-white/70 mb-2 uppercase tracking-wider">ベンチ</div>
-              <div className="grid grid-cols-2 gap-2">
-                {bench.filter(b=>!(editingType==='bench'&&b.id===editingId)).map((b,i)=>(
-                  <button key={b.id} onClick={()=>swap('bench',b.id)} className="bg-slate-900 hover:bg-slate-700 rounded-lg p-2 text-left transition">
-                    <div className="text-[10px] text-white/50 font-bold">控え{i+1}</div>
-                    <div className="text-sm font-medium truncate">{b.name||<span className="text-white/40">未入力</span>}</div>
+              <div class="text-xs font-bold text-white/70 mb-2 uppercase tracking-wider">ベンチ</div>
+              <div class="grid grid-cols-2 gap-2">
+                ${bench.filter(b=>!(editingType==='bench'&&b.id===editingId)).map((b,i)=>html`<button key=${b.id} onClick=${()=>swap('bench',b.id)} class="bg-slate-900 hover:bg-slate-700 rounded-lg p-2 text-left transition"><div class="text-[10px] text-white/50 font-bold">控え${i+1}</div><div class="text-sm font-medium truncate">${b.name||html`<span class="text-white/40">未入力</span>`}</div></button>`)}
+              </div>
+            </div>
+          </div>
+        </div>`}
+
+      ${showSave&&html`
+        <div class="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4" onClick=${()=>setShowSave(false)}>
+          <div class="bg-slate-800 rounded-2xl p-5 w-full max-w-xs" onClick=${e=>e.stopPropagation()}>
+            <div class="flex items-center gap-2 mb-3"><${Save} className="w-4 h-4"/><span class="font-semibold">保存名</span></div>
+            <input autoFocus value=${saveName} onInput=${e=>setSaveName(e.target.value)} onKeyDown=${e=>e.key==='Enter'&&doSave()} placeholder=${title||'My Lineup'} class="w-full bg-slate-900 border border-white/20 rounded-lg px-3 py-2 text-white outline-none focus:border-white/60 mb-3"/>
+            <div class="flex gap-2">
+              <button onClick=${()=>setShowSave(false)} class="flex-1 py-2 bg-slate-700 hover:bg-slate-600 rounded-lg font-medium">キャンセル</button>
+              <button onClick=${doSave} class="flex-1 py-2 bg-blue-600 hover:bg-blue-500 rounded-lg font-medium">保存</button>
+            </div>
+          </div>
+        </div>`}
+
+      ${showList&&html`
+        <div class="fixed inset-0 bg-black/70 flex items-end sm:items-center justify-center z-50" onClick=${()=>setShowList(false)}>
+          <div class="bg-slate-800 rounded-t-2xl sm:rounded-2xl p-5 w-full max-w-md max-h-[80vh] overflow-y-auto" onClick=${e=>e.stopPropagation()}>
+            <div class="flex items-center justify-between mb-3">
+              <div class="flex items-center gap-2"><${FolderOpen} className="w-4 h-4"/><span class="font-semibold">保存済みフォーメーション</span></div>
+              <button onClick=${()=>setShowList(false)}><${X} className="w-5 h-5"/></button>
+            </div>
+            ${savedList.length===0?html`<div class="text-center text-white/60 py-8">まだ保存されたフォーメーションはありません</div>`:html`
+              <div class="space-y-2">
+                ${savedList.map(item=>html`<div key=${item.id} class="flex items-center gap-2 bg-slate-900 rounded-lg p-3">
+                  <button onClick=${()=>doLoad(item)} class="flex-1 text-left">
+                    <div class="font-semibold">${item.name}</div>
+                    <div class="text-xs text-white/50">${item.formation} · ${new Date(item.savedAt).toLocaleString('ja-JP')}</div>
                   </button>
-                ))}
-              </div>
-            </div>
+                  <button onClick=${()=>doDelete(item.id)} class="p-2 text-red-400 hover:bg-red-500/20 rounded-lg"><${Trash2} className="w-4 h-4"/></button>
+                </div>`)}
+              </div>`}
           </div>
-        </div>
-      )}
+        </div>`}
 
-      {showSave&&(
-        <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4" onClick={()=>setShowSave(false)}>
-          <div className="bg-slate-800 rounded-2xl p-5 w-full max-w-xs" onClick={e=>e.stopPropagation()}>
-            <div className="flex items-center gap-2 mb-3"><Save className="w-4 h-4"/><span className="font-semibold">保存名</span></div>
-            <input autoFocus value={saveName} onChange={e=>setSaveName(e.target.value)} onKeyDown={e=>e.key==='Enter'&&doSave()} placeholder={title||'My Lineup'} className="w-full bg-slate-900 border border-white/20 rounded-lg px-3 py-2 text-white outline-none focus:border-white/60 mb-3"/>
-            <div className="flex gap-2">
-              <button onClick={()=>setShowSave(false)} className="flex-1 py-2 bg-slate-700 hover:bg-slate-600 rounded-lg font-medium">キャンセル</button>
-              <button onClick={doSave} className="flex-1 py-2 bg-blue-600 hover:bg-blue-500 rounded-lg font-medium">保存</button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {showList&&(
-        <div className="fixed inset-0 bg-black/70 flex items-end sm:items-center justify-center z-50" onClick={()=>setShowList(false)}>
-          <div className="bg-slate-800 rounded-t-2xl sm:rounded-2xl p-5 w-full max-w-md max-h-[80vh] overflow-y-auto" onClick={e=>e.stopPropagation()}>
-            <div className="flex items-center justify-between mb-3">
-              <div className="flex items-center gap-2"><FolderOpen className="w-4 h-4"/><span className="font-semibold">保存済みフォーメーション</span></div>
-              <button onClick={()=>setShowList(false)}><X className="w-5 h-5"/></button>
-            </div>
-            {savedList.length===0?(
-              <div className="text-center text-white/60 py-8">まだ保存されたフォーメーションはありません</div>
-            ):(
-              <div className="space-y-2">
-                {savedList.map(item=>(
-                  <div key={item.id} className="flex items-center gap-2 bg-slate-900 rounded-lg p-3">
-                    <button onClick={()=>doLoad(item)} className="flex-1 text-left">
-                      <div className="font-semibold">{item.name}</div>
-                      <div className="text-xs text-white/50">{item.formation} · {new Date(item.savedAt).toLocaleString('ja-JP')}</div>
-                    </button>
-                    <button onClick={()=>doDelete(item.id)} className="p-2 text-red-400 hover:bg-red-500/20 rounded-lg"><Trash2 className="w-4 h-4"/></button>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-        </div>
-      )}
-
-      {toast&&<div className="fixed bottom-6 left-1/2 -translate-x-1/2 bg-black/80 text-white px-4 py-2 rounded-full text-sm z-50">{toast}</div>}
+      ${toast&&html`<div class="fixed bottom-6 left-1/2 -translate-x-1/2 bg-black/80 text-white px-4 py-2 rounded-full text-sm z-50">${toast}</div>`}
     </div>
-  </div>);
+  </div>`;
 }
 
-createRoot(document.getElementById('root')).render(<FormationMaker/>);
+render(html`<${FormationMaker}/>`, document.getElementById('root'));
+} catch(e) {
+  document.getElementById('root').innerHTML='<div style="color:white;background:#1e293b;padding:24px;font-family:monospace;font-size:13px"><b>エラー:</b><br/>'+e.message+'<br/><pre>'+e.stack+'</pre></div>';
+}
 </script>
 </body>
 </html>
