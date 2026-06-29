@@ -123,7 +123,7 @@ function FormationMaker(){
     if(dragRef.current==null)return;
     const svg=svgRef.current;if(!svg)return;
     const r=svg.getBoundingClientRect();
-    const x=((e.clientX-r.left)/r.width)*100,y=((e.clientY-r.top)/r.height)*100;
+    const x=((e.clientX-r.left)/r.width)*100,y=((e.clientY-r.top)/r.height)*124;
     if(Math.abs(x)>0){movedRef.current=true;setIsCustomized(true);}
     setPlayers(prev=>prev.map(p=>p.id===dragRef.current?{...p,x:Math.max(5,Math.min(95,x)),y:Math.max(5,Math.min(95,y))}:p));
   };
