@@ -138,4 +138,4 @@ MIT License. 詳細は `LICENSE` ファイルを参照してください。
 
 ## 作者
 
-[Your Name](https://github.com/your-username)
+Kazuki Nakajima
